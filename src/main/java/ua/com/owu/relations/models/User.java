@@ -2,6 +2,7 @@ package ua.com.owu.relations.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,8 +21,11 @@ public class User {
     private int id;
     private String name;
 
+    private String img;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private List<Product> products = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -30,6 +34,7 @@ public class User {
 //            joinColumns = {@JoinColumn(name = "users_id")},
 //            inverseJoinColumns = {@JoinColumn(name = "cars_id")}
 //    )
+    @JsonIgnore
     private List<Car> cars = new ArrayList<>();
 
     public User(String name) {
@@ -40,4 +45,11 @@ public class User {
         this.name = name;
         this.products = products;
     }
+
+    public User(String name, String img) {
+        this.name = name;
+        this.img = img;
+    }
+
+
 }
